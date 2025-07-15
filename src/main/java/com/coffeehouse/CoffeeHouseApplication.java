@@ -1,4 +1,4 @@
-package com.coffeehouse.CoffeeHouse;
+package com.coffeehouse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
