@@ -6,7 +6,6 @@ import com.coffeehouse.dto.OrderResponse;
 import com.coffeehouse.model.CoffeeItem;
 import com.coffeehouse.service.MenuService;
 import com.coffeehouse.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,6 @@ public class OrderController {
     private final OrderService orderService;
     private final MenuService menuService;
 
-    @Autowired
     public OrderController(OrderService orderService, MenuService menuService) {
         this.orderService = orderService;
         this.menuService = menuService;

@@ -4,7 +4,6 @@ import com.coffeehouse.dto.OrderRequest;
 import com.coffeehouse.dto.OrderResponse;
 import com.coffeehouse.model.Order;
 import com.coffeehouse.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,7 +17,6 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    @Autowired
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }

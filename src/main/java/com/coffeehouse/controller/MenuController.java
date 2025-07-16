@@ -2,7 +2,6 @@ package com.coffeehouse.controller;
 
 import com.coffeehouse.model.CoffeeItem;
 import com.coffeehouse.service.MenuService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @Autowired
     public MenuController(MenuService menuService) {
         this.menuService = menuService;
     }

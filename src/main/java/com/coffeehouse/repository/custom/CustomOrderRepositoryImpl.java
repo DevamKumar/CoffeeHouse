@@ -4,7 +4,6 @@ import com.coffeehouse.dto.DailyOrderSummary;
 import com.coffeehouse.dto.TopSellingItem;
 import com.coffeehouse.model.Order;
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -20,7 +19,6 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 public class CustomOrderRepositoryImpl implements CustomOrderRepository{
     private final MongoOperations mongoOperations;
 
-    @Autowired
     public CustomOrderRepositoryImpl(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
     }
