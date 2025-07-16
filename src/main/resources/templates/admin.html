@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+<h1>Admin Dashboard</h1>
+<p>Total Revenue: $<span th:text="${dashboard.totalRevenue}"></span></p>
+
+<h2>Top Selling Items</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Quantity Sold</th>
+    </tr>
+    <tr th:each="item : ${dashboard.topSellingItems}">
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.quantity}"></td>
+    </tr>
+</table>
+
+<h2>Daily Order Summary</h2>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Total Orders</th>
+        <th>Total Revenue</th>
+    </tr>
+    <tr th:each="summary : ${dashboard.dailySummaries}">
+        <td th:text="${summary.date}"></td>
+        <td th:text="${summary.totalOrders}"></td>
+        <td th:text="${summary.totalRevenue}"></td>
+    </tr>
+</table>
+
+<a th:href="@{/}">Back to Home</a>
+</body>
+</html>

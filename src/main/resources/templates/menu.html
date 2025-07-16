@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menu</title>
+</head>
+<body>
+<h1>Our Coffee Menu</h1>
+<form th:action="@{/order}" method="get">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        <tr th:each="item : ${menu}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.price}"></td>
+            <td><input type="number" name="quantities" min="0" /></td>
+            <input type="hidden" name="itemIds" th:value="${item.id}"/>
+        </tr>
+    </table>
+    <button type="submit">Place Order</button>
+</form>
+</body>
+</html>

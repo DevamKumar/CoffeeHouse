@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Place Order</title>
+</head>
+<body>
+<h1>Place Your Order</h1>
+<form th:action="@{/order/submit}" method="post">
+    <label>Customer Name:</label>
+    <input type="text" name="customerName" required />
+    <div th:each="item, iterStat : ${selectedItems}">
+        <input type="hidden" name="items[__${iterStat.index}__].itemId" th:value="${item.id}"/>
+        <input type="hidden" name="items[__${iterStat.index}__].name" th:value="${item.name}"/>
+        <input type="hidden" name="items[__${iterStat.index}__].price" th:value="${item.price}"/>
+        <input type="hidden" name="items[__${iterStat.index}__].quantity" th:value="${item.quantity}"/>
+    </div>
+    <button type="submit">Confirm Order</button>
+</form>
+</body>
+</html>

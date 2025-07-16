@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  coffeehouse:
+    image: coffeehouse
+    container_name: coffeehouse_app
+    build: .
+    ports:
+      - "8054:8054"
+    depends_on:
+      - mongo
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/coffeehouse_db
+    networks:
+      - coffeehouse_net
+
+  mongo:
+    image: mongo:7.0
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - coffeehouse_net
+
+
+volumes:
+  mongo_data:
+
+networks:
+  coffeehouse_net:
