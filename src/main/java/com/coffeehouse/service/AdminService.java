@@ -2,7 +2,6 @@ package com.coffeehouse.service;
 
 import com.coffeehouse.dto.AdminDashboardResponse;
 import com.coffeehouse.dto.DailyOrderSummary;
-import com.coffeehouse.dto.TopSellingItem;
 import com.coffeehouse.repository.custom.CustomOrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +16,10 @@ public class AdminService {
         this.customOrderRepository = customOrderRepository;
     }
 
-    public AdminDashboardResponse getDashboardSummary(){
+    public AdminDashboardResponse getDashboardSummary() {
         double totalRevenue = customOrderRepository.calculateTotalRevenue();
-        List<TopSellingItem> topItems = customOrderRepository.getTopSellingItems();
         List<DailyOrderSummary> dailySummary = customOrderRepository.getDailyOrderSummary();
 
-        return new AdminDashboardResponse(totalRevenue, topItems, dailySummary);
+        return new AdminDashboardResponse(totalRevenue, dailySummary);
     }
 }

@@ -2,24 +2,107 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .menu-table {
+            display: table;
+            width: 700px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .menu-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .menu-table th, .menu-table td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .menu-table th {
+            background-color: #d8c3a5;
+            color: #5e412f;
+        }
+
+        .menu-table tr:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+
+        .menu-table tr:hover {
+            background-color: #ffe8d6;
+        }
+
+        /* Completely hide card layout */
+        .menu-cards {
+            display: none !important;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #5e412f;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #7f5f42;
+        }
+    </style>
 </head>
 <body>
 <h1>Our Coffee Menu</h1>
-<form th:action="@{/order}" method="get">
+
+<!-- TABLE FOR DESKTOP -->
+<div class="menu-table">
     <table>
         <tr>
             <th>Name</th>
             <th>Price</th>
-            <th>Quantity</th>
         </tr>
         <tr th:each="item : ${menu}">
             <td th:text="${item.name}"></td>
             <td th:text="${item.price}"></td>
-            <td><input type="number" name="quantities" min="0" /></td>
-            <input type="hidden" name="itemIds" th:value="${item.id}"/>
         </tr>
     </table>
-    <button type="submit">Place Order</button>
-</form>
+</div>
+
+<!-- CARD VIEW HIDDEN -->
+<div class="menu-cards">
+    <div class="card" th:each="item : ${menu}">
+        <span class="name" th:text="${item.name}">Espresso</span>
+        <span class="price" th:text="${item.price}">$2.50</span>
+    </div>
+</div>
+
+<a th:href="@{/order}">☕ Proceed to Order</a>
 </body>
 </html>

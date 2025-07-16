@@ -13,5 +13,6 @@ public class OrderRequest {
         private String itemId;
         private double price;
         private int quantity;
+        private String name;
     }
 }

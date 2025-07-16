@@ -2,37 +2,166 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Admin Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            padding: 40px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            width: 1000px;
+            margin: 40px auto;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h1, h2 {
+            color: #4B2E2E;
+            margin-top: 0;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 1000px;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #6f4e37;
+            color: white;
+        }
+
+        form {
+            display: block;
+            background-color: #fdfdfd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 500px;
+            margin-bottom: 40px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #6f4e37;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #5a3d2b;
+        }
+
+        a {
+            color: #6f4e37;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+            margin: 40px 0;
+        }
+    </style>
 </head>
 <body>
-<h1>Admin Dashboard</h1>
-<p>Total Revenue: $<span th:text="${dashboard.totalRevenue}"></span></p>
 
-<h2>Top Selling Items</h2>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Quantity Sold</th>
-    </tr>
-    <tr th:each="item : ${dashboard.topSellingItems}">
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.quantity}"></td>
-    </tr>
-</table>
+<div class="container">
+    <h1>Admin Dashboard</h1>
+    <p>Total Revenue: $<span th:text="${dashboard.totalRevenue}"></span></p>
 
-<h2>Daily Order Summary</h2>
-<table>
-    <tr>
-        <th>Date</th>
-        <th>Total Orders</th>
-        <th>Total Revenue</th>
-    </tr>
-    <tr th:each="summary : ${dashboard.dailySummaries}">
-        <td th:text="${summary.date}"></td>
-        <td th:text="${summary.totalOrders}"></td>
-        <td th:text="${summary.totalRevenue}"></td>
-    </tr>
-</table>
+    <h2>Daily Order Summary</h2>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Total Orders</th>
+            <th>Total Revenue</th>
+        </tr>
+        <tr th:each="summary : ${dashboard.dailyOrderSummaries}">
+            <td th:text="${summary.orderDate}"></td>
+            <td th:text="${summary.totalOrder}"></td>
+            <td th:text="${summary.totalRevenue}"></td>
+        </tr>
+    </table>
 
-<a th:href="@{/}">Back to Home</a>
+    <hr/>
+
+    <h2>Add New Coffee Item</h2>
+    <form th:action="@{/admin/add-coffee-item}" th:object="${coffeeItem}" method="post">
+        <label for="itemName">Name:</label>
+        <input type="text" id="itemName" th:field="*{name}" required/>
+
+        <label for="itemPrice">Price:</label>
+        <input type="number" id="itemPrice" th:field="*{price}" step="0.01" min="0" required/>
+
+        <label for="itemQuantity">Initial Stock Quantity:</label>
+        <input type="number" id="itemQuantity" th:field="*{quantity}" min="0" required/>
+
+        <button type="submit">Add Item to Menu</button>
+    </form>
+
+    <h2>Current Menu Items</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock Quantity</th>
+        </tr>
+        <tr th:each="item : ${menuItems}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.quantity}"></td>
+        </tr>
+    </table>
+
+    <a th:href="@{/}">⬅ Back to Home</a>
+</div>
+
 </body>
 </html>

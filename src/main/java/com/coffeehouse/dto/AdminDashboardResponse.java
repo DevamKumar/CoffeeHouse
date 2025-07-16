@@ -12,6 +12,5 @@ import java.util.List;
 
 public class AdminDashboardResponse {
     private double totalRevenue;
-    private List<TopSellingItem> topSellingItems;
     private List<DailyOrderSummary> dailyOrderSummaries;
 }

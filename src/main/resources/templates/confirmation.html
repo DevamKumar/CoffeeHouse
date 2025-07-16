@@ -2,12 +2,101 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Order Confirmation</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            padding: 40px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            width: 700px;
+            margin: 40px auto;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4B2E2E;
+            font-size: 2rem;
+        }
+
+        h2 {
+            color: #6f4e37;
+            margin-top: 30px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 700px;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #6f4e37;
+            color: white;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #6f4e37;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        a:hover {
+            background-color: #5a3d2b;
+        }
+    </style>
 </head>
 <body>
-<h1>Order Confirmed!</h1>
-<p>Order ID: <span th:text="${orderId}"></span></p>
-<p>Total Price: $<span th:text="${totalPrice}"></span></p>
-<p>Order Time: <span th:text="${orderTime}"></span></p>
-<a th:href="@{/}">Back to Home</a>
+
+<div class="container">
+    <h1>Order Confirmed! 🎉</h1>
+    <p>Thank you, <span th:text="${response.customerName}"></span>!</p>
+    <p><strong>Order ID:</strong> <span th:text="${response.orderId}"></span></p>
+    <p><strong>Total Price:</strong> $<span th:text="${response.totalPrice}"></span></p>
+    <p><strong>Order Time:</strong> <span th:text="${#dates.format(response.orderTime, 'dd-MM-yyyy HH:mm')}"></span></p>
+
+    <h2>Items Ordered:</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        <tr th:each="item : ${response.items}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td th:text="${item.price}"></td>
+        </tr>
+    </table>
+
+    <a th:href="@{/}">⬅ Back to Home</a>
+</div>
+
 </body>
 </html>

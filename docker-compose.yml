@@ -10,7 +10,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/coffeehouse_db
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/coffeehouse
     networks:
       - coffeehouse_net
 
@@ -24,6 +24,24 @@ services:
     networks:
       - coffeehouse_net
 
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo_express_dashboard
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: pass
+      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+
+    depends_on:
+      - mongo
+    networks:
+      - coffeehouse_net
 
 volumes:
   mongo_data:
