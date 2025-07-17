@@ -11,59 +11,80 @@
             background-position: center;
             color: #333;
             padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
         }
 
         .container {
             background-color: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 12px;
-            width: 1000px;
-            margin: 40px auto;
+            max-width: 1000px;
+            margin: auto;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            width: 100%;
         }
 
         h1, h2 {
             color: #4B2E2E;
             margin-top: 0;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         p {
             font-size: 1.1rem;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         table {
-            width: 1000px;
+            width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
             margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #e0e0e0;
             padding: 12px;
             text-align: center;
+            vertical-align: middle;
         }
 
         th {
             background-color: #6f4e37;
             color: white;
+            font-weight: bold;
         }
 
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+
         form {
-            display: block;
             background-color: #fdfdfd;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 500px;
-            margin-bottom: 40px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 40px auto;
         }
 
         label {
             font-weight: bold;
             display: block;
             margin-top: 10px;
+            margin-bottom: 5px;
         }
 
         input[type="text"],
@@ -72,8 +93,9 @@
             border: 1px solid #bbb;
             border-radius: 6px;
             font-size: 1rem;
-            width: 100%;
+            width: calc(100% - 22px);
             margin-top: 4px;
+            box-sizing: border-box;
         }
 
         button {
@@ -86,16 +108,51 @@
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out;
+            display: block;
+            width: 100%;
         }
 
         button:hover {
             background-color: #5a3d2b;
         }
 
+        .delete-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        .delete-form form {
+            margin: 0;
+        }
+
+
+
+        .delete-button {
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin: 0;
+            margin: 0 auto 0 auto;
+        }
+
+        .delete-button:hover {
+            background-color: #6f4e37;
+        }
+
         a {
             color: #6f4e37;
             text-decoration: none;
             font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
         }
 
         a:hover {
@@ -108,26 +165,41 @@
             background-color: #ccc;
             margin: 40px 0;
         }
+        .header-image {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <img src="https://placehold.co/120x120/6f4e37/FFFFFF?text=Admin" alt="Admin Icon" class="header-image">
+
     <h1>Admin Dashboard</h1>
-    <p>Total Revenue: $<span th:text="${dashboard.totalRevenue}"></span></p>
+    <p>Total Revenue: <strong th:text="'&#8377;' + ${dashboard.totalRevenue}"></strong></p>
 
     <h2>Daily Order Summary</h2>
     <table>
+        <thead>
         <tr>
             <th>Date</th>
             <th>Total Orders</th>
             <th>Total Revenue</th>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="summary : ${dashboard.dailyOrderSummaries}">
             <td th:text="${summary.orderDate}"></td>
             <td th:text="${summary.totalOrder}"></td>
-            <td th:text="${summary.totalRevenue}"></td>
+            <td th:text="'&#8377;' + ${summary.totalRevenue}"></td>
         </tr>
+        </tbody>
     </table>
 
     <hr/>
@@ -135,39 +207,45 @@
     <h2>Add New Coffee Item</h2>
     <form th:action="@{/admin/add-coffee-item}" th:object="${coffeeItem}" method="post">
         <label for="itemName">Name:</label>
-        <input type="text" id="itemName" th:field="*{name}" required/>
+        <input type="text" id="itemName" name="name" th:field="*{name}" required/>
 
         <label for="itemPrice">Price:</label>
-        <input type="number" id="itemPrice" th:field="*{price}" step="0.01" min="0" required/>
+        <input type="number" id="itemPrice" name="price" th:field="*{price}" step="0.01" min="0" required/>
 
         <label for="itemQuantity">Initial Stock Quantity:</label>
-        <input type="number" id="itemQuantity" th:field="*{quantity}" min="0" required/>
+        <input type="number" id="itemQuantity" name="quantity" th:field="*{quantity}" min="0" required/>
 
         <button type="submit">Add Item to Menu</button>
     </form>
 
     <h2>Current Menu Items</h2>
     <table>
+        <thead>
         <tr>
             <th>Name</th>
             <th>Price</th>
             <th>Stock Quantity</th>
-            <th></th>
+            <th>Action</th>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="item : ${menuItems}">
             <td th:text="${item.name}"></td>
-            <td th:text="${item.price}"></td>
+            <td th:text="'&#8377;' + ${item.price}"></td>
             <td th:text="${item.quantity}"></td>
             <td>
-                <form th:action="@{/admin/delete-coffee-item}" method="post" onsubmit="return confirm('Are you sure you want to delete this item?');">
-                    <input type="hidden" name="itemName" th:value="${item.name}">
-                    <button type="submit" class="delete-button">Delete</button>
-                </form>
+                <div class="delete-form" >
+                    <form th:action="@{/admin/delete-coffee-item}" method="post" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="itemName" th:value="${item.name}">
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </div>
             </td>
         </tr>
+        </tbody>
     </table>
 
-    <a th:href="@{/}">⬅ Back to Home</a>
+    <a th:href="@{/}">&#8592; Back to Home</a>
 </div>
 
 </body>
