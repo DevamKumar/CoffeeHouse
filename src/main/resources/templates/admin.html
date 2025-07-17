@@ -152,11 +152,18 @@
             <th>Name</th>
             <th>Price</th>
             <th>Stock Quantity</th>
+            <th></th>
         </tr>
         <tr th:each="item : ${menuItems}">
             <td th:text="${item.name}"></td>
             <td th:text="${item.price}"></td>
             <td th:text="${item.quantity}"></td>
+            <td>
+                <form th:action="@{/admin/delete-coffee-item}" method="post" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                    <input type="hidden" name="itemName" th:value="${item.name}">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </td>
         </tr>
     </table>
 

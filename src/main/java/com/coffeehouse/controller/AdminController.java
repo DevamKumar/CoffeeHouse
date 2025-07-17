@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -27,7 +28,6 @@ public class AdminController {
     public String getAdminDashboard(Model model){
         AdminDashboardResponse response = adminService.getDashboardSummary();
         model.addAttribute("dashboard", response);
-
         model.addAttribute("coffeeItem", new CoffeeItem());
         model.addAttribute("menuItems", menuService.getAllItems());
 
@@ -37,6 +37,12 @@ public class AdminController {
     @PostMapping("/admin/add-coffee-item")
     public String addCoffeeItem(@ModelAttribute CoffeeItem item, Model model){
         menuService.addItem(item);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/delete-coffee-item")
+    public String deleteCoffeeItem(@RequestParam("itemName") String itemName){
+        menuService.deleteItem(itemName);
         return "redirect:/admin";
     }
 

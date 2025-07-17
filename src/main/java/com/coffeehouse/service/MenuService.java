@@ -16,13 +16,16 @@ public class MenuService {
         this.coffeeItemRepository = coffeeItemRepository;
     }
 
-
     public List<CoffeeItem> getAllItems() {
         return coffeeItemRepository.findAll();
     }
 
     public CoffeeItem addItem(CoffeeItem item) {
         return coffeeItemRepository.save(item);
+    }
+
+    public void deleteItem(String itemName){
+        coffeeItemRepository.deleteById(itemName);
     }
 
 }
