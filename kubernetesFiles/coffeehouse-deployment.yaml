@@ -1,0 +1,45 @@
+Version: apps/v1
+kind: Deployment
+metadata:
+  name: coffeehouse-deployment
+  namespace: coffeehouse-app
+  labels:
+    app: coffeehouse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffeehouse
+  template:
+    metadata:
+      labels:
+        app: coffeehouse
+    spec:
+      containers:
+      - name: coffeehouse
+        image: devamkumar/coffeehouse:v1
+        ports:
+        - containerPort: 8054
+        env:
+         - name: SPRING_DATA_MONGODB_URI
+           value: mongodb://mongo-service:27017/coffeehouse
+        
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8054
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8054
+          initialDelaySeconds: 45
+          periodSeconds: 10
