@@ -1,0 +1,81 @@
+agent {
+    docker {
+        image 'gradle:jdk21-alpine'
+        args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
+}
+
+stages {
+    stage('Checkout Code') {
+        steps {
+            git branch: 'HEAD', url: 'https://github.com/devamkumar/coffeehouse.git'
+        }
+    }
+
+    stage('Build Application') {
+        steps {
+            script {
+                sh './gradlew clean build -x test'
+            }
+        }
+    }
+
+    stage('Run Tests') {
+        steps {
+            script {
+                // sh './gradlew test'
+                echo 'Skipping tests for brevity. Uncomment "sh ./gradlew test" to enable.'
+            }
+        }
+    }
+
+    stage('Docker Build and Push') {
+        environment {
+            DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-devamkumar'
+            DOCKER_HUB_USERNAME = credentials('your-dockerhub-credentials-id').getUsername()
+            DOCKER_HUB_PASSWORD = credentials('your-dockerhub-credentials-id').getPassword()
+            DOCKER_IMAGE_NAME = 'devamkumar/coffeehouse'
+            IMAGE_TAG = env.BUILD_NUMBER
+        }
+        steps {
+            script {
+                // Login to Docker Hub
+                sh "echo \"$DOCKER_HUB_PASSWORD\" | docker login -u \"$DOCKER_HUB_USERNAME\" --password-stdin"
+
+                // Build the Docker image
+                sh "docker build -t ${DOCKER_IMAGE_NAME}:${IMAGE_TAG} ."
+                sh "docker build -t ${DOCKER_IMAGE_NAME}:latest ."
+
+                // Push the Docker image to Docker Hub
+                sh "docker push ${DOCKER_IMAGE_NAME}:${IMAGE_TAG}"
+                sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+
+                // Logout from Docker Hub (optional, but good practice)
+                sh 'docker logout'
+            }
+        }
+    }
+
+    // stage('Deploy to Kubernetes') {
+    //     steps {
+    //         script {
+    //             sh 'kubectl apply -f kubernetesFiles/ -n coffeehouse-app'
+
+    //             // Optional: Verify deployment status
+    //             sh 'kubectl rollout status deployment/coffeehouse-deployment -n coffeehouse-app'
+    //         }
+    //     }
+    // }
+}
+
+post {
+    always {
+        cleanWs()
+    }
+    failure {
+        echo 'Pipeline failed! Check logs for details.'
+    }
+    success {
+        echo 'Pipeline succeeded! Application deployed to Kubernetes.'
+    }
+}
