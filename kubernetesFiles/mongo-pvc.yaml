@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongo-pvc
-  namespace: coffeehouse-app
+  # namespace: coffeehouse-app
 
 spec:
   resources:
