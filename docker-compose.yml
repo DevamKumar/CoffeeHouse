@@ -2,9 +2,8 @@ version: '3.8'
 
 services:
   coffeehouse:
-    image: coffeehouse
+    image: devamkumar/coffeehouse:v1
     container_name: coffeehouse_app
-    build: .
     ports:
       - "8054:8054"
     depends_on:
