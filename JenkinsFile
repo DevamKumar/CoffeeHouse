@@ -30,7 +30,7 @@ pipeline {
                 DOCKER_HUB_PASSWORD = credentials(DOCKER_HUB_CREDENTIALS_ID).getPassword()
 
                 DOCKER_IMAGE_NAME = 'devamkumar/coffeehouse'
-                IMAGE_TAG = env.BUILD_NUMBER
+                IMAGE_TAG = "${env.BUILD_NUMBER}"
             }
             steps {
                 script {
