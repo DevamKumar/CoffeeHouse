@@ -1,8 +1,10 @@
 pipeline {
+    // Jenkinsfile for CoffeeHouse Spring Boot Application CI/CD
+
     agent {
         docker {
-            image 'gradle:jdk21-alpine'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            image 'gradle:jdk21-alpine' 
+            args '-v /var/run/docker.sock:/var/run/docker.sock' 
         }
     }
 
@@ -15,27 +17,23 @@ pipeline {
 
         stage('Build Application') {
             steps {
-                sh './gradlew clean build -x test'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                echo 'Skipping tests for brevity. Uncomment "sh ./gradlew test" to enable.'
+                script {
+                    sh './gradlew clean build -x test'
+                }
             }
         }
 
         stage('Docker Build and Push') {
             environment {
+                DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-devamkumar'
+                DOCKER_HUB_USERNAME = credentials(DOCKER_HUB_CREDENTIALS_ID).getUsername()
+                DOCKER_HUB_PASSWORD = credentials(DOCKER_HUB_CREDENTIALS_ID).getPassword()
+
                 DOCKER_IMAGE_NAME = 'devamkumar/coffeehouse'
-                IMAGE_TAG = "${env.BUILD_NUMBER}"
+                IMAGE_TAG = env.BUILD_NUMBER
             }
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-devamkumar',
-                    usernameVariable: 'DOCKER_HUB_USERNAME',
-                    passwordVariable: 'DOCKER_HUB_PASSWORD')
-                    ]) {
+                script {
                     sh "echo \"$DOCKER_HUB_PASSWORD\" | docker login -u \"$DOCKER_HUB_USERNAME\" --password-stdin"
                     sh "docker build -t ${DOCKER_IMAGE_NAME}:${IMAGE_TAG} ."
                     sh "docker build -t ${DOCKER_IMAGE_NAME}:latest ."
@@ -45,24 +43,17 @@ pipeline {
                 }
             }
         }
-
-        // stage('Deploy to Kubernetes') {
-        //     steps {
-        //         sh 'kubectl apply -f kubernetesFiles/ -n coffeehouse-app'
-        //         sh 'kubectl rollout status deployment/coffeehouse-deployment -n coffeehouse-app'
-        //     }
-        // }
     }
 
     post {
         always {
-            cleanWs()
+            cleanWs() // This should now work correctly as the agent context will be fully established
         }
         failure {
             echo 'Pipeline failed! Check logs for details.'
         }
         success {
-            echo 'Pipeline succeeded! Application deployed to Kubernetes.'
+            echo 'Pipeline succeeded! Docker image pushed.'
         }
     }
 }
