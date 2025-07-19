@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongo-deployment
-  # namespace: coffeehouse-app
+  namespace: coffeehouse-app
   labels:
     app: mongo
 spec:

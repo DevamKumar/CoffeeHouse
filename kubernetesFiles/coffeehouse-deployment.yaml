@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: coffeehouse-deployment
-  # namespace: coffeehouse-app
+  namespace: coffeehouse-app
   labels:
     app: coffeehouse
 spec:

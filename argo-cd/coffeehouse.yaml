@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coffeehouse-app
+spec:
+  project: default
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: coffeehouse-app
+  source:
+    repoURL: 'https://github.com/devamkumar/coffeehouse.git'
+    path: 'kubernetesFiles/'
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
