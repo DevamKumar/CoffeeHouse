@@ -1,28 +1,20 @@
-# Use Gradle with Java 24 support
+# ✅ Uses Gradle + Java 21, compatible with Spring Boot 3.5.3 and arm64 (M1/M2/M3)
 FROM gradle:8.7.0-jdk21
 
 USER root
 
-# Install Java 24 (manually, since no official base supports it yet)
-RUN apt-get update && \
-    apt-get install -y wget unzip software-properties-common && \
-    wget https://download.oracle.com/java/24/latest/jdk-24_linux-x64_bin.deb && \
-    dpkg -i jdk-24_linux-x64_bin.deb && \
-    rm jdk-24_linux-x64_bin.deb && \
-    update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-24/bin/java 1 && \
-    update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-24/bin/javac 1 && \
-    java -version
-
 # Install Docker CLI
-RUN apt-get install -y docker.io
+RUN apt-get update && \
+    apt-get install -y docker.io curl unzip && \
+    apt-get clean
 
-# Install kubectl
-RUN curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+# Install kubectl for ARM64
+RUN curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" && \
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
     rm kubectl
 
-# Install ArgoCD CLI
-RUN curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && \
+# Install ArgoCD CLI for ARM64
+RUN curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-arm64 && \
     chmod +x /usr/local/bin/argocd
 
 VOLUME /var/run/docker.sock
