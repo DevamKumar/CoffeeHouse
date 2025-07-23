@@ -28,14 +28,12 @@ pipeline {
         }
 
         stage('Push to Registry') {
-            environment {
-                DOCKER_USER = credentials('docker-credentials-id')
-                DOCKER_PASS = credentials('docker-credentials-id')
-            }
             steps {
-                script {
-                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                    sh "docker push ${REGISTRY}:${IMAGE_TAG}"
+                withCredentials([usernamePassword(credentialsId: 'docker-credentials-id', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    script {
+                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                        sh "docker push ${REGISTRY}:${IMAGE_TAG}"
+                    }
                 }
             }
         }
