@@ -1,4 +1,4 @@
-FROM openjdk:24-jdk-slim
+FROM openjdk:21-jdk-slim
 
 LABEL authors="devamkumar"
 LABEL projectName="CoffeeHouse"
