@@ -33,7 +33,7 @@ pipeline {
                 credentialsId: 'docker-credentials-id',
                 usernameVariable: 'DOCKER_USER',
                 passwordVariable: 'DOCKER_PASS'
-                )]){
+                )]) {
                     script {
                         sh '''
                         #!/bin/bash
@@ -47,7 +47,7 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                script {
+                withKubeConfig(kubeconfigId: 'my-kubeconfig') {
                     sh 'kubectl apply -f kubernetesFiles/'
                 }
             }
