@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   coffeehouse:
-    image: devamkumar/coffeehouse:v1
+    image: devamkumar/coffeehouse:v2
     container_name: coffeehouse_app
     ports:
       - "8054:8054"
