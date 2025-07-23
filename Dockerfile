@@ -1,5 +1,7 @@
 FROM openjdk:21-jdk-slim
 
+#just checking
+
 LABEL authors="devamkumar"
 LABEL projectName="CoffeeHouse"
 
