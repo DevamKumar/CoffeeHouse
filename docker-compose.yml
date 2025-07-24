@@ -3,9 +3,6 @@ version: "3.8"
 services:
   coffeehouse:
     image: ${REGISTRY}:${IMAGE_TAG}
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
     container_name: coffeehouse_app
     ports:
       - "8054:8054"
