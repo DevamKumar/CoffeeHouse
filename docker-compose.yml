@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   coffeehouse:
-    image: devamkumar/coffeehouse
+    image: ${REGISTRY}:${IMAGE_TAG}
     # build:
     #   context: .
     #   dockerfile: Dockerfile
