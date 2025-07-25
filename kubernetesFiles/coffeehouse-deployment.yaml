@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: coffeehouse
-        image: devamkumar/coffeehouse:v1
+        image: devamkumar/coffeehouse:4
         ports:
         - containerPort: 8054
         env:
