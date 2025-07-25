@@ -1,0 +1,35 @@
+DevOps mega project
+
+Application
+1. Repository - GitHub
+2. Backend - Java, Spring boot
+3. DataBase - MongoDB
+
+Master Machine
+IAAC
+Master Node
+TerraForm
+- IAM
+- Key Pair
+- Security Groups
+
+DevSecOps
+- Jenkins
+- Trivy
+- OWASP
+- Sonar
+- Docker
+- Mail
+
+Kubernetes Cluster
+EKS
+- Node 1
+- Node 2
+
+GitOps
+- GitRepo
+- ArgoCD
+
+Monitoring
+- Prometheus
+- Grafana
