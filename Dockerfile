@@ -1,4 +1,5 @@
 FROM openjdk:21-jdk-slim
+#FROM eclipse-temurin:21-jdk
 
 LABEL authors="devamkumar"
 LABEL projectName="CoffeeHouse"
