@@ -1,4 +1,4 @@
-//this jenkinsfile is for the deployement of the coffeehouse application using the GitOps–ArgoCD approach.  
+//this JenkinsFile is for the deployment of the coffeehouse application using the GitOps–ArgoCD approach.
 pipeline {
     agent any
 
@@ -38,7 +38,6 @@ pipeline {
                 )]) {
                     script {
                         sh """
-                        #!/bin/bash
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${REGISTRY}:${IMAGE_TAG}
                         """
@@ -67,7 +66,7 @@ pipeline {
                     git config user.email "ci@jenkins.com"
                     git config user.name "Jenkins CI"
                     git add ${DEPLOYMENT_FILE}
-                    git commit -m "🔄 Update image tag to ${IMAGE_TAG}"
+                    git commit -m "Update image tag to ${IMAGE_TAG}"
                     git remote -v
                     git push https://${GIT_USER}:${GIT_PASS}@github.com/DevamKumar/CoffeeHouse.git HEAD:master
                     """
@@ -78,10 +77,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Deployment successful!'
+            echo 'Deployment successful!'
         }
         failure {
-            echo '❌ Deployment failed!'
+            echo 'Deployment failed!'
         }
     }
 }
